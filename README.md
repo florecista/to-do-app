@@ -1,5 +1,7 @@
 # To-Do App - Proof of Concept
 
+<img src="https://github.com/user-attachments/assets/ad1f9f29-4f44-4048-832c-81f9cd6033c0" width=30% height=30%>
+
 This is a **To-Do App** serving as a **Proof of Concept** for the use of the following technologies:
 
 ## 🚀 Technologies Used
