@@ -21,11 +21,3 @@ This is a **To-Do App** serving as a **Proof of Concept** for the use of the fol
 - **Tailwind CSS** - Styling framework for responsive design
 - **Fetch API** - Communication with backend API
 
----
-
-## 🔧 Setup Instructions
-
-### **Backend**
-1. Navigate to the backend folder:
-   ```sh
-   cd backend
