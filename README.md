@@ -2,7 +2,9 @@
 
 This is a **To-Do App** serving as a **Proof of Concept** for the use of the following technologies:
 
-## Backend Technologies
+## 🚀 Technologies Used
+
+### **Backend**
 - **Spring Boot 3.1** - Backend framework for building REST APIs
 - **Java 21** - Latest Java features and enhancements
 - **Hibernate (JPA)** - ORM for database interactions
@@ -13,12 +15,17 @@ This is a **To-Do App** serving as a **Proof of Concept** for the use of the fol
 - **Spring Boot Starter Web** - RESTful API development
 - **Spring Boot Starter Test** - Unit and integration testing
 
-## Current Status
-✅ **Backend implemented**  
-✅ **Tested using Postman**  
+### **Frontend**
+- **Next.js 15** - React-based frontend framework
+- **TypeScript** - Strongly typed JavaScript
+- **Tailwind CSS** - Styling framework for responsive design
+- **Fetch API** - Communication with backend API
 
-## Next Steps
-- Develop the **Next.js frontend**
-- Connect frontend to backend API
-- Add authentication (optional)
-- Deploy using Docker or Kubernetes
+---
+
+## 🔧 Setup Instructions
+
+### **Backend**
+1. Navigate to the backend folder:
+   ```sh
+   cd backend
