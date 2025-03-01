@@ -16,6 +16,7 @@ This is a **To-Do App** serving as a **Proof of Concept** for the use of the fol
 - **Spring Validation** - Input validation for API requests
 - **Spring Boot Starter Web** - RESTful API development
 - **Spring Boot Starter Test** - Unit and integration testing
+- 🔐 JWT Authentication - Secure API authentication using JSON Web Tokens (JWT)
 
 ### **Frontend**
 - **Next.js 15** - React-based frontend framework
