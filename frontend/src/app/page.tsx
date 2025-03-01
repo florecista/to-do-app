@@ -14,40 +14,70 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [hoveredTask, setHoveredTask] = useState<number | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    // Check if the user is already logged in
-    const storedLogin = localStorage.getItem("isLoggedIn");
-    if (storedLogin === "true") {
-      setIsLoggedIn(true);
-      fetchTasks();
+    const storedToken = localStorage.getItem("jwtToken");
+    if (storedToken) {
+      setToken(storedToken);
+      fetchTasks(storedToken);
     }
   }, []);
 
-  const fetchTasks = () => {
-    fetch("http://localhost:8080/api/tasks")
-      .then((response) => response.json())
-      .then((data) => setTasks(data))
-      .catch((error) => console.error("Error fetching tasks:", error));
+  const fetchTasks = async (jwtToken: string) => {
+    console.log("JWT Token being used:", jwtToken);
+    try {
+      const response = await fetch("http://localhost:8080/api/tasks", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Unauthorized");
+      }
+
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === "admin" && password === "admin") {
-      setIsLoggedIn(true);
-      localStorage.setItem("isLoggedIn", "true");
-      fetchTasks();
-    } else {
-      alert("Invalid credentials!");
+
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+
+      const data = await response.json();
+      const jwtToken = data.token;
+
+      localStorage.setItem("jwtToken", jwtToken);
+      setToken(jwtToken);
+      fetchTasks(jwtToken);
+    } catch (error) {
+      alert("Login failed. Please check your credentials.");
+      console.error("Error logging in:", error);
     }
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("jwtToken");
+    setToken(null);
+    setTasks([]);
   };
 
   const handleAddTask = async (e: React.FormEvent) => {
@@ -57,13 +87,14 @@ export default function Home() {
       return;
     }
 
-    const newTask = { title, description, completed: false };
-
     try {
       const response = await fetch("http://localhost:8080/api/tasks", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTask),
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description, completed: false }),
       });
 
       if (!response.ok) throw new Error("Failed to add task");
@@ -79,7 +110,11 @@ export default function Home() {
 
   const markAsCompleted = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/tasks/${id}/complete`, { method: "PUT" });
+      const response = await fetch(`http://localhost:8080/api/tasks/${id}/complete`, {
+        method: "PUT",
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+
       if (!response.ok) throw new Error("Failed to update task");
 
       const updatedTask = await response.json();
@@ -91,7 +126,11 @@ export default function Home() {
 
   const deleteTask = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/tasks/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:8080/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+
       if (!response.ok) throw new Error("Failed to delete task");
 
       setTasks(tasks.filter((task) => task.id !== id));
@@ -102,7 +141,7 @@ export default function Home() {
 
   return (
     <main className="p-6 max-w-lg mx-auto">
-      {!isLoggedIn ? (
+      {!token ? (
         <>
           <h1 className="text-2xl font-bold mb-4">Login</h1>
           <form onSubmit={handleLogin} className="mb-6 border p-4 rounded-lg shadow">
