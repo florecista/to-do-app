@@ -43,10 +43,12 @@ public class JwtUtil {
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .setAllowedClockSkewSeconds(600) // ✅ Allow 10 minutes of clock skew
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
@@ -56,4 +58,9 @@ public class JwtUtil {
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
+
+    public SecretKey getSecretKey() {
+        return secretKey;
+    }
+
 }
