@@ -8,14 +8,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.6</version> <!-- Stable version -->
+		<version>3.1.6</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>info.matthewryan</groupId>
 	<artifactId>todo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging> <!-- Changed to JAR for standalone app -->
+	<packaging>jar</packaging>
 
 	<name>todo</name>
 	<description>ToDo app</description>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
-			<version>5.0.0</version>
+			<version>6.0.0</version>  <!-- Update this to match Jakarta EE 10 -->
 			<scope>provided</scope>
 		</dependency>
 
@@ -87,7 +87,8 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JWT -->
+		<!-- JWT Authentication -->
+		<!-- JSON Web Token (JWT) Dependencies -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -118,13 +119,6 @@
 				<configuration>
 					<source>21</source>
 					<target>21</target>
-					<annotationProcessorPaths>
-						<annotationProcessorPath>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>1.18.30</version>
-						</annotationProcessorPath>
-					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 
