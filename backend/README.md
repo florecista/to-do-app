@@ -111,6 +111,3 @@ Once the application is running, the **Swagger API documentation** is available 
 🔹 Deploy to **Azure Kubernetes Service (AKS)** with **Ingress Controller**.  
 🔹 Add **CI/CD pipeline** for automated deployments.
 
----
-
-### 🚀 *This README ensures that developers can quickly build, test, and deploy the backend service with minimal setup!* 🚀
