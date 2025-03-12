@@ -43,7 +43,7 @@ The backend uses the following dependencies:
 
 ### 1️⃣ **Clone the repository**
 ```sh
-git clone https://github.com/yourusername/todo-app.git
+git clone https://github.com/florecista/todo-app.git
 cd todo-app/backend
 ```
 
