@@ -61,6 +61,50 @@ By default, the backend runs on **`http://localhost:8080`**.
 
 ---
 
+## Running PostgreSQL with Docker
+
+To run a PostgreSQL database in a Docker container:
+
+```sh
+docker run --name postgres-todo -e POSTGRES_USER=todo_user -e POSTGRES_PASSWORD=todo_pass -e POSTGRES_DB=todo_db -p 5432:5432 -d postgres:15
+```
+
+Check if the container is running:
+
+```sh
+docker ps
+```
+
+---
+
+## **📂 Checking Database Tables in PostgreSQL**
+To manually inspect the database, enter the **PostgreSQL CLI** inside the running container:
+
+```sh
+docker exec -it postgres-todo psql -U todo_user -d todo_db
+```
+
+Then, to list all tables, run:
+```sql
+\dt
+```
+
+### 📌 Example Console Output:
+```plaintext
+todo_db=# \dt
+           List of relations
+ Schema |   Name    | Type  |   Owner   
+--------+-----------+-------+-----------
+ public | audit_log | table | todo_user
+ public | tasks     | table | todo_user
+ public | users     | table | todo_user
+(3 rows)
+
+todo_db=# 
+```
+
+---
+
 ## Containerizing the Backend (Docker)
 
 To deploy the backend as a **containerized microservice**, follow these steps:
@@ -85,8 +129,8 @@ This backend is designed for **Azure Kubernetes Service (AKS)**. The deployment 
 
 ### **1️⃣ Push to Azure Container Registry (ACR)**
 ```sh
-docker tag todo-app:latest youracrname.azurecr.io/todo-app:latest
-docker push youracrname.azurecr.io/todo-app:latest
+docker tag todo-app:latest myacr.azurecr.io/todo-app:latest
+docker push myacr.azurecr.io/todo-app:latest
 ```
 
 ### **2️⃣ Deploy to AKS**
@@ -105,12 +149,3 @@ Once the application is running, the **Swagger API documentation** is available 
 📌 **`http://localhost:8080/swagger-ui/index.html`**
 
 ---
-
-## Next Steps
-🔹 Implement **PostgreSQL** for production deployment.  
-🔹 Deploy to **Azure Kubernetes Service (AKS)** with **Ingress Controller**.  
-🔹 Add **CI/CD pipeline** for automated deployments.
-
----
-
-### 🚀 *This README ensures that developers can quickly build, test, and deploy the backend service with minimal setup!* 🚀
